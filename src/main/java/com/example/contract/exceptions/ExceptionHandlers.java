@@ -21,7 +21,7 @@ public class ExceptionHandlers {
                 .body(new StatusResponse("error", "Listing not found: " + ex.getMessage()));
     }
 
-    @ExceptionHandler(Exception.class) // Catch all general errors
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<StatusResponse> handleInternalError(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new StatusResponse("error", "Internal server error: " + ex.getMessage()));
