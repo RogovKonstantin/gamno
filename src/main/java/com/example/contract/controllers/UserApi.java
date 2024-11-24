@@ -45,7 +45,7 @@ public interface UserApi {
     @PatchMapping("/users/{id}")
     ResponseEntity<EntityModel<UserResponse>> patchUser(
             @PathVariable UUID id,
-            @RequestBody @Valid UserRequest userRequest
+            @RequestBody UserRequest userRequest
     );
 
     @Operation(summary = "Delete a user")

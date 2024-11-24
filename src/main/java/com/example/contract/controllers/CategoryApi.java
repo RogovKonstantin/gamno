@@ -45,7 +45,7 @@ public interface CategoryApi {
     @PutMapping("/categories/{id}")
     ResponseEntity<EntityModel<CategoryResponse>> updateCategory(
             @PathVariable UUID id,
-            @RequestBody @Valid CategoryRequest categoryRequest
+            @RequestBody CategoryRequest categoryRequest
     );
 
     @Operation(summary = "Delete a category")
