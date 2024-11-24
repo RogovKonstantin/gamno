@@ -1,13 +1,11 @@
 package com.example.contract.dtos;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
 import java.math.BigDecimal;
 import java.util.UUID;
 
 public record ListingRequest(
-        @NotBlank(message = "Title is required") String title,
+        @NotNull(message = "Title is required") String title,
         String description,
         @NotNull(message = "Price is required") BigDecimal price,
         String location,

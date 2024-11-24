@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,19 +30,29 @@ import java.util.UUID;
 })
 public interface ListingApi {
 
-    @Operation(summary = "Get a listing by ID")
-    @GetMapping("/{id}")
-    ResponseEntity<ListingResponse> getListingById(@PathVariable UUID id);
+    @Operation(summary = "Get listing by ID")
+    @GetMapping("/listings/{id}")
+    ResponseEntity<EntityModel<ListingResponse>> getListingById(@PathVariable UUID id);
 
     @Operation(summary = "Create a new listing")
-    @PostMapping
-    ResponseEntity<ListingResponse> createListing(@Valid @RequestBody ListingRequest listingRequest);
+    @PostMapping("/listings")
+    ResponseEntity<EntityModel<ListingResponse>> createListing(@RequestBody @Valid ListingRequest listingRequest);
+
+    @Operation(summary = "Get all listings with pagination")
+    @GetMapping("/listings")
+    ResponseEntity<PagedModel<EntityModel<ListingResponse>>> getAllListings(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size
+    );
 
     @Operation(summary = "Update a listing")
-    @PatchMapping("/{id}")
-    ResponseEntity<ListingResponse> patchListing(@PathVariable UUID id, @Valid @RequestBody ListingRequest listingRequest);
+    @PatchMapping("/listings/{id}")
+    ResponseEntity<EntityModel<ListingResponse>> patchListing(
+            @PathVariable UUID id,
+            @RequestBody ListingRequest listingRequest
+    );
 
-    @Operation(summary = "Delete a listing by ID")
-    @DeleteMapping("/{id}")
-    ResponseEntity<Void> deleteListing(@PathVariable UUID id);
+    @Operation(summary = "Soft delete a listing")
+    @DeleteMapping("/listings/{id}")
+    ResponseEntity<Void> softDeleteListing(@PathVariable UUID id);
 }

@@ -6,28 +6,31 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+
 @ControllerAdvice
 public class ExceptionHandlers {
 
-    @ExceptionHandler(InvalidArgumentException.class)
-    public ResponseEntity<StatusResponse> handleInvalidArgument(InvalidArgumentException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new StatusResponse("error", ex.getMessage()));
-    }
 
     @ExceptionHandler(ListingNotFoundException.class)
-    public ResponseEntity<StatusResponse> handleListingNotFound(ListingNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new StatusResponse("error", "Listing not found: " + ex.getMessage()));
+    public ResponseEntity<StatusResponse> handleListingNotFoundException(ListingNotFoundException ex) {
+        StatusResponse response = new StatusResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<StatusResponse> handleInternalError(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new StatusResponse("error", "Internal server error: " + ex.getMessage()));
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<StatusResponse> handleUserNotFoundException(UserNotFoundException ex) {
+        StatusResponse response = new StatusResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-    public record StatusResponse(String status, String message) {}
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<StatusResponse> handleCategoryNotFoundException(CategoryNotFoundException ex) {
+        StatusResponse response = new StatusResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    public record StatusResponse(String message, HttpStatus httpStatus) {
+    }
+
 }
 
 
