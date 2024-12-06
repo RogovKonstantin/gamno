@@ -28,6 +28,11 @@ public class ExceptionHandlers {
         StatusResponse response = new StatusResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(ListingValidationException.class)
+    public ResponseEntity<String> handleListingValidationException(ListingValidationException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     public record StatusResponse(String message, HttpStatus httpStatus) {
     }
 
